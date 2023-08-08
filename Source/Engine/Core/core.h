@@ -3,6 +3,7 @@
 #include "FileIO.h"
 #include "memory.h"
 #include "Time.h"
+#include "Logger.h"
 //Math
 #include "Vector2.h"
 #include "MathUtil.h"

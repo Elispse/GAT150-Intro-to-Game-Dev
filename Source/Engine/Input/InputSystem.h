@@ -1,4 +1,3 @@
-#pragma oncekey
 #include <SDL2-2.28.1/include/SDL.h>
 #include <vector>
 #include <Core/Vector2.h>

@@ -32,8 +32,8 @@ namespace Jackster
 		void setTimeScale(float timeScale) { m_timeScale = m_timeScale; }
 
 	private:
-		float m_time;
-		float m_deltaTime;
+		float m_time = 0;
+		float m_deltaTime = 0;
 		float m_timeScale = 1;
 
 		clock::time_point m_startTime;

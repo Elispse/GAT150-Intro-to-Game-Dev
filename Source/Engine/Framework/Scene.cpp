@@ -51,6 +51,11 @@ namespace Jackster
 		m_actors.push_back(std::move(actor));
 	}
 
+	void Scene::Remove(Actor* actor)
+	{
+		//m_actors.remove(actor);
+	}
+
 	void Scene::RemoveAll()
 	{
 		m_actors.clear();

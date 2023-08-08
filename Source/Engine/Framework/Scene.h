@@ -15,6 +15,7 @@ namespace Jackster
 		void Draw(Renderer& renderer);
 
 		void Add(std::unique_ptr<Actor> actor);
+		void Remove(Actor* actor);
 		void RemoveAll();
 
 		template<typename T>

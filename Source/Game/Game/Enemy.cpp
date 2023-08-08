@@ -14,9 +14,9 @@
 
 void Enemy::Update(float dt)
 {
+    Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(m_transform.rotation);
     Actor::Update(dt);
 
-    Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(m_transform.rotation);
     auto* player = m_scene->getActor<Player>();
     if (player)
     {
@@ -43,7 +43,7 @@ void Enemy::Update(float dt)
         m_fireTimer = m_fireRate;
         // Create Weapon
         Jackster::Transform transform{ m_transform.position, m_transform.rotation};
-        std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform, m_model);
+        std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform);
         weapon->m_tag = "EnemyFire";
         m_scene->Add(std::move(weapon));
         Jackster::g_audioSystem.PlayOneShot("enemy_Shoot");

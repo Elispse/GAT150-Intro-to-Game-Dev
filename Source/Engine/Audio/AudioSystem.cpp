@@ -37,6 +37,8 @@ namespace Jackster {
 		if (iter != m_sounds.end())
 		{
 			FMOD::Sound* sound = iter->second;
+			if (loop) sound->setMode(loop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
+
 			sound->setMode(loop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
 
 			FMOD::Channel* channel;

@@ -1,46 +1,53 @@
 #pragma once
 #include <Core/core.h>
 #include "Renderer/Model.h"
+#include "Component/Components.h"
 #include <memory>
 
 namespace Jackster
 {
-class Actor
-{
-	public:
-		Actor() = default;
-		Actor(const Transform& transform, std::shared_ptr<Model> model) :
-			m_transform{ transform },
-			m_model{ model }
-		{}
+	class Actor
+	{
+		public:
+			Actor() = default;
+			Actor(const Jackster::Transform& transform) :
+				m_transform{ transform }
+			{}
 
-		float getRadius() { return (m_model) ? m_model->getRadius() * m_transform.scale : 0; }
-		virtual void onCollision(Actor* other) {};
+			virtual void Update(float dt);
+			virtual void Draw(Renderer& renderer);
 
-		void AddForce(const vec2& force) { m_velocity += force; }
-		void SetDamping(float damping) { m_damping = damping; }
+			void addComponent(std::unique_ptr<Component> component);
+			template<typename T>
+			T* getComponent();
 
-		virtual void Update(float dt);
-		virtual void Draw(Renderer& renderer);
+			float getRadius() { return 30.0f; }
+			virtual void onCollision(Actor* other) {};
 
-		class Scene* m_scene = nullptr;
-		friend class Scene;
+			class Scene* m_scene = nullptr;
+			friend class Scene;
+			class Game* m_game = nullptr;
 
-		class Game* m_game = nullptr;
+			Transform m_transform;
+			std::string m_tag;
+			float m_lifespan = -1.0f;
+			bool m_destroyed = false;
 
-		Transform m_transform;
-		std::string m_tag;
-		float m_lifespan = -1.0f;
+		protected:
+			std::vector<std::unique_ptr<class Component>> m_components;
+		};
 
-	protected:
-		bool m_destroyed = false;
-		Actor(const Jackster::Transform& transform) :
-			m_transform{ transform }
-		{}
-		std::shared_ptr<Model> m_model;
+		template<typename T>
+		inline T* Actor::getComponent()
+		{
+			for (auto& component : m_components)
+			{
+				T* result = dynamic_cast<T*> (component.get());
 
-		vec2 m_velocity;
-		float m_damping = 0;
-	};
+				if (result)
+					return result;
+			}
+			return nullptr;
+		}
 }
 

@@ -3,17 +3,22 @@
 #include "Enemy.h"
 
 #include "Framework/Scene.h"
-#include "Input/InputSystem.h"
+#include "Framework/Resource/Resource.h"
+#include "Framework/Resource/ResourceManager.h"
 
 #include "Audio/AudioSystem.h"
+#include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
-#include "Renderer/ModelManager.h"
+#include "Renderer/Texture.h"
+#include "Renderer//ModelManager.h"
+#include "Framework/Component/Sprite.h"
 #include <Framework/Emitter.h>
+#include <Framework/Component/EnginePhysicsComp.h>
 
 bool ShipBlaster::Initialize()
 {
 	// create font / text objects
-	m_font = std::make_shared<Jackster::Font>("8bitOperatorPlus8-Bold.ttf", 24);
+	m_font = Jackster::g_resManager.Get<Jackster::Font>("8bitOperatorPlus8-Bold.ttf", 24);
 
 	m_scoreText = std::make_unique<Jackster::Text>(m_font);
 	m_scoreText->Create(Jackster::g_renderer, "SCORE 0000", Jackster::Color{1, 1, 1, 1});
@@ -64,10 +69,21 @@ void ShipBlaster::Update(float dt)
 	case ShipBlaster::eState::StartLevel:
 		m_scene->RemoveAll();
 	{
-		std::unique_ptr<Player> player = std::make_unique<Player>(10.0f, Jackster::pi, Jackster::Transform{ {400, 300}, 0, 6 }, Jackster::g_MM.get("Ship.txt"));
+			//create player
+		std::unique_ptr<Player> player = std::make_unique<Player>(10.0f, Jackster::pi, Jackster::Transform{ {400, 300}, 0, 6 }, Jackster::g_modelManager.get("Ship.txt"));
 		player->m_tag = "Player";
 		player->m_game = this;
-		player->SetDamping(0.9f);
+
+		//create components
+		std::unique_ptr<Jackster::Sprite> component = std::make_unique<Jackster::Sprite>();
+		component->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("Ship_2_D_Small.png", Jackster::g_renderer);
+		player->addComponent(std::move(component));
+
+		// add physics
+		auto physicsComponent = std::make_unique<Jackster::EnginePhysicsComp>();
+		physicsComponent->m_damping = 0.8;
+		player->addComponent(std::move(physicsComponent));
+
 		m_scene->Add(std::move(player));
 	}
 	m_state = eState::Game;
@@ -79,9 +95,15 @@ void ShipBlaster::Update(float dt)
 			if (m_spawnTimer >= m_spawnTime) {
 				m_spawnTimer = 0.0f;
 
-				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(150.0f, Jackster::pi, Jackster::Transform{ {Jackster::random(0, 800), Jackster::random(0, 600) }, Jackster::randomf(Jackster::pi2), 6 }, Jackster::g_MM.get("EnemyShip.txt"));
+				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(150.0f, Jackster::pi, Jackster::Transform{ {Jackster::random(0, 800), Jackster::random(0, 600) }, Jackster::randomf(Jackster::pi2), 6 }, Jackster::g_modelManager.get("EnemyShip.txt"));
 				enemy->m_tag = "Enemy";
 				enemy->m_game = this;
+
+				//Create Components
+				std::unique_ptr<Jackster::Sprite> component = std::make_unique<Jackster::Sprite>();
+				component->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("Ship_2_D_Small.png", Jackster::g_renderer);
+				enemy->addComponent(std::move(component));
+
 				m_scene->Add(std::move(enemy));
 			}
 		}

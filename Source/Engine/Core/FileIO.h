@@ -8,4 +8,5 @@ namespace Jackster {
     bool getFileSize(const std::filesystem::path& path, size_t& fSize);
     bool readFile(const std::filesystem::path& path, std::string& buffer);
     std::string getFilePath();
+    std::string getFileName(const std::filesystem::path& path);
 }

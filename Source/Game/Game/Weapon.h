@@ -4,8 +4,8 @@
 class Weapon : public Jackster::Actor
 {
 public:
-	Weapon(float speed, const Jackster::Transform& transform, std::shared_ptr<Jackster::Model> model) :
-		Actor{ transform, model },
+	Weapon(float speed, const Jackster::Transform& transform) :
+		Actor{ transform },
 		m_speed{ speed }
 	{
 		m_lifespan = 2.0f;

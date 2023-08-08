@@ -16,5 +16,5 @@ namespace Jackster
 
     };
 
-    extern ModelManager g_MM;
+    extern ModelManager g_modelManager;
 }

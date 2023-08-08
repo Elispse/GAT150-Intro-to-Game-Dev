@@ -1,7 +1,7 @@
 #include "ModelManager.h"
 
 namespace Jackster {
-    ModelManager g_MM;
+    ModelManager g_modelManager;
 
     std::shared_ptr<Model> Jackster::ModelManager::get(const std::string& fileName)
     {

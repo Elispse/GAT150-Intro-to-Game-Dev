@@ -27,7 +27,9 @@ namespace Jackster
 		}
 		void Update(float dt);
 		void Draw(Renderer& renderer);
+
 		friend class ParticleSystem;
+
 	private:
 		ParticleData m_data;
 		bool m_isActive = false;

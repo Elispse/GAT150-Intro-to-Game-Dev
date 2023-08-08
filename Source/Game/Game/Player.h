@@ -4,15 +4,15 @@
 class Player : public Jackster::Actor
 {
 public:
-	Player(float speed, float turnRate, const Jackster::Transform& transform, std::shared_ptr<Jackster::Model> model) :
-		Actor{ transform, model },
+	Player(float speed, float turnRate, const Jackster::Transform& transform) :
+		Actor{ transform },
 		m_speed{speed},
 		m_turnRate{turnRate}
 	{}
 
 	void Update(float dt) override;
 	virtual void onCollision(Actor* actor) override;
-	bool pu_doubleShot = true;
+	bool pu_doubleShot = false;
 	//bool 1_UP = false;
 private:
 	float m_speed = 0;

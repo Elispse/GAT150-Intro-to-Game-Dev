@@ -1,7 +1,14 @@
 #include "Model.h"
+#include "Renderer.h"
 #include <sstream>
 
-namespace Jackster {
+namespace Jackster 
+{
+	bool Model::Create(std::string filename, ...)
+	{
+		return Load(filename);
+	}
+
 	bool Model::Load(const std::string& filename)
 	{
 		std::string buffer;
@@ -30,7 +37,7 @@ namespace Jackster {
 	}
 
 
-	void Model::Draw(Renderer& renderer, const vec2 position,float rotation, float scale)
+	void Model::draw(Renderer& renderer, const vec2 position,float rotation, float scale)
 	{
 		if (m_points.empty()) return;
 
@@ -44,9 +51,9 @@ namespace Jackster {
 			renderer.drawLine(p1.x, p1.y, p2.x, p2.y);
 		}
 	}
-	void Model::Draw(Renderer& renderer, const Transform& transform)
+	void Model::draw(Renderer& renderer, const Transform& transform)
 	{
-		Draw(renderer, transform.position, transform.rotation, transform.scale);
+		draw(renderer, transform.position, transform.rotation, transform.scale);
 	}
 
 	float Model::getRadius()

@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "SDL2-2.28.1/include/SDL_ttf.h"
-
+#include "SDL2-2.28.1/include/SDL_image.h"
+#include "Texture.h"
 
 namespace Jackster {
 
@@ -9,6 +10,7 @@ namespace Jackster {
 	bool Renderer::Initialize()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
+		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 		TTF_Init();
 
 		return false;
@@ -19,6 +21,7 @@ namespace Jackster {
 		SDL_DestroyRenderer(m_renderer);
 		SDL_DestroyWindow(m_window);
 		TTF_Quit();
+		IMG_Quit();
 
 		return false;
 	}
@@ -66,6 +69,18 @@ namespace Jackster {
 	void Renderer::drawPoint(float x, float y)
 	{
 		SDL_RenderDrawPointF(m_renderer, x, y);
+	}
+
+	void Renderer::DrawTexture(Texture* texture, float x, float y, float angle)
+	{
+		vec2 size = texture->GetSize();
+			SDL_Rect dest;
+			dest.x = size.x;
+			dest.y = size.y;
+			dest.w = x;
+			dest.h = y;
+			// https://wiki.libsdl.org/SDL2/SDL_RenderCopyEx
+			SDL_RenderCopyEx(m_renderer, texture->m_texture, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
 	}
 
 }

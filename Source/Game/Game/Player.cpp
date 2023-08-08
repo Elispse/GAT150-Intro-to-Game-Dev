@@ -4,8 +4,11 @@
 #include "Renderer/Renderer.h"
 #include "ShipBlaster.h"
 #include "Weapon.h"
+#include "Framework/Resource/ResourceManager.h"
+#include "Framework/Component/Sprite.h"
 #include "Framework/Emitter.h"
 #include "Audio/AudioSystem.h"
+#include "Framework/Component/Physics.h"
 
 void Player::Update(float dt)
 {
@@ -21,7 +24,9 @@ void Player::Update(float dt)
     if (Jackster::g_inputSystem.GetKeyDown(SDL_SCANCODE_W)) thrust = 1;
 
     Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(m_transform.rotation);
-    AddForce(forward * m_speed * thrust);
+
+    auto physicsComponent = getComponent<Jackster::Physics>();
+    physicsComponent->ApplyForce(forward * m_speed * thrust);
 
 
     //m_transform.position += forward * m_speed * thrust * Jackster::g_time.getDeltaTime();
@@ -39,8 +44,13 @@ void Player::Update(float dt)
         {
             // Create Weapon
             Jackster::Transform transform{ m_transform.position, m_transform.rotation, 1};
-            std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform, m_model);
+            std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform);
             weapon->m_tag = "PlayerFire";
+
+            std::unique_ptr<Jackster::Sprite> component = std::make_unique<Jackster::Sprite>();
+            component->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("New Piskel-1.png.png", Jackster::g_renderer);
+            weapon->addComponent(std::move(component));
+
             m_scene->Add(std::move(weapon));
             Jackster::g_audioSystem.PlayOneShot("player_Shoot");
         }
@@ -51,13 +61,23 @@ void Player::Update(float dt)
             {
                 // Create Weapon
                 Jackster::Transform transform{ m_transform.position, m_transform.rotation + Jackster::degreesToRadians(10.0f), 1};
-                std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform, m_model);
+                std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform);
                 weapon->m_tag = "PlayerFire";
+
+                std::unique_ptr<Jackster::Sprite> component = std::make_unique<Jackster::Sprite>();
+                component->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("New Piskel-1.png.png", Jackster::g_renderer);
+                weapon->addComponent(std::move(component));
+
                 m_scene->Add(std::move(weapon));
 
                 Jackster::Transform transform2{ m_transform.position, m_transform.rotation - Jackster::degreesToRadians(10.0f), 1};
-                weapon = std::make_unique<Weapon>(400.0f, transform2, m_model);
+                weapon = std::make_unique<Weapon>(400.0f, transform2);
                 weapon->m_tag = "PlayerFire";
+
+                std::unique_ptr<Jackster::Sprite> component2 = std::make_unique<Jackster::Sprite>();
+                component2->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("New Piskel-1.png.png", Jackster::g_renderer);
+                weapon->addComponent(std::move(component2));
+
                 m_scene->Add(std::move(weapon));
                 Jackster::g_audioSystem.PlayOneShot("shoot");
             }

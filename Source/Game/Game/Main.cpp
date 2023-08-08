@@ -1,24 +1,16 @@
 #include "Core/core.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/Model.h"
-#include "Input/InputSystem.h"
-#include "Audio/AudioSystem.h"
-#include "Framework/Scene.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Renderer/ModelManager.h"
-#include "Renderer/ParticleSystem.h"
+#include "Framework/Framework.h"
+
 #include "ShipBlaster.h"
-#include "Framework/Game.h"
+
+#include "Audio/AudioSystem.h"
+
+#include "Input/InputSystem.h"
+
+#include <Renderer/Renderer.h>
+#include "Renderer/ParticleSystem.h"
 
 
-#include <Renderer/Font.h>
-#include <thread>
-#include <vector>
-#include <iostream>
-#include <memory>
-#include <Renderer/Text.h>
-#include <Framework/Emitter.h>
 
 class Star {
 public:
@@ -41,10 +33,12 @@ public:
     Jackster::vec2 m_vel;
 };
 
-
+Jackster::res_t<Jackster::Texture> texture = Jackster::g_resManager.Get<Jackster::Texture>("ship.png", Jackster::g_renderer);
 
 
 int main(int argc, char* argv[]) {
+
+    INFO_LOG("Initializng Engine...")
 
     Jackster::MemoryTracker::Initialize();
     Jackster::seedRandom((unsigned) time(nullptr));
@@ -56,8 +50,6 @@ int main(int argc, char* argv[]) {
 
     Jackster::g_inputSystem.Initialize();
     Jackster::g_audioSystem.Initialize();
-
-
 
     std::unique_ptr<ShipBlaster> game = std::make_unique<ShipBlaster>();
     game->Initialize();
@@ -121,12 +113,16 @@ int main(int argc, char* argv[]) {
         Jackster::g_renderer.setColor(0, 0, 0, 0);
         Jackster::g_renderer.BeginFrame();
 
+        //load texture - resource manager assignment
+        Jackster::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
+
+
         //Update stars
         for (auto& star : stars)
         {
             star.Update(Jackster::g_renderer.GetWidth(), Jackster::g_renderer.GetHeight());
 
-            star.m_pos.x + 1;
+            //star.m_pos.x + 1;
             star.m_pos.y += 0.3f;
 
             if (star.m_pos.x >= Jackster::g_renderer.GetWidth()) star.m_pos.x = 0;
@@ -135,26 +131,6 @@ int main(int argc, char* argv[]) {
             Jackster::g_renderer.setColor(Jackster::random(256), 255, 255, 255);
             Jackster::g_renderer.setColor(Jackster::random(256), Jackster::random(256), Jackster::random(256), 255);//draw
             Jackster::g_renderer.drawPoint(star.m_pos.x, star.m_pos.y);
-        }
-
-        if (Jackster::g_inputSystem.GetMouseButtonDown(0))
-        {
-            Jackster::EmitterData data;
-            data.burst = true;
-            data.burstCount = 100;
-            data.spawnRate = 200;
-            data.angle = 0;
-            data.angleRange = Jackster::pi;
-            data.lifetimeMin = 0.5f;
-            data.lifetimeMax = 1.5f;
-            data.speedMin = 50;
-            data.speedMax = 250;
-            data.damping = 0.5f;
-            data.color = Jackster::Color{ 1, 1, 1, 1 };
-            Jackster::Transform transform{ { Jackster::g_inputSystem.GetMousePosition() }, 0, 1 };
-            auto emitter = std::make_unique<Jackster::Emitter>(transform, data);
-            emitter->m_lifespan = 1.0f;
-            game->m_scene->Add(std::move(emitter));
         }
 
         //draws frame
