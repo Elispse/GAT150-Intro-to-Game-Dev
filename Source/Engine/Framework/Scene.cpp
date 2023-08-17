@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Framework/Component/Collision.h"
 
 namespace Jackster
 {
@@ -24,14 +25,15 @@ namespace Jackster
 		{
 			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++)
 			{
-				float distance = (*iter1)->m_transform.position.distance((*iter2)->m_transform.position);
-				float radius = (*iter1)->getRadius() + (*iter2)->getRadius();
-				if (distance <= radius)
+				Collision* collision1 = (*iter1)->getComponent<Collision>();
+				Collision* collision2 = (*iter2)->getComponent<Collision>();
+
+				if (!collision1 || !collision2) continue;
+
+				if (collision1->collisionCheck(collision2))
 				{
 					(*iter1)->onCollision(iter2->get());
 					(*iter2)->onCollision(iter1->get());
-					//boom
-
 				}
 			}
 		}

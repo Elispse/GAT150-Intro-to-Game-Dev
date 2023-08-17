@@ -1,16 +1,31 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "ShipBlaster.h"
-#include "Framework/Scene.h"
-#include "Renderer/Renderer.h"
 #include "Weapon.h"
 #include "Audio/AudioSystem.h"
 
+#include "Core/core.h"
+#include "Framework/Framework.h"
+#include "Renderer/Renderer.h"
 
-#include <Framework/Emitter.h>
-#include "Input/InputSystem.h"
 
 
+bool Enemy::Initialize()
+{
+    Actor::Initialize();
+    // cache off
+    auto collision = getComponent<Jackster::Collision>();
+    if (collision)
+    {
+        auto renderComponent = getComponent<Jackster::RenderComponent>();
+        if (renderComponent)
+        {
+            float scale = m_transform.scale;
+            collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+        }
+    }
+    return true;
+}
 
 void Enemy::Update(float dt)
 {

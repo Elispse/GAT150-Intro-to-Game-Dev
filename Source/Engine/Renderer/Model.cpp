@@ -1,5 +1,7 @@
 #include "Model.h"
 #include "Renderer.h"
+#include "Core/Math/Matrix33.h"
+#include "Core/FileIO.h"
 #include <sstream>
 
 namespace Jackster 
@@ -53,7 +55,19 @@ namespace Jackster
 	}
 	void Model::draw(Renderer& renderer, const Transform& transform)
 	{
-		draw(renderer, transform.position, transform.rotation, transform.scale);
+		if (m_points.empty())return;
+
+		mat3 mx = transform.getMatrix();
+
+		renderer.setColor(Color::toInt(m_color.r), Color::toInt(m_color.g), Color::toInt(m_color.b), Color::toInt(m_color.a));
+
+		for (int i = 0; i < m_points.size() - 1; i++)
+		{
+			vec2 p1 = mx * m_points[i];
+			vec2 p2 = mx * m_points[i + 1];
+
+			renderer.drawLine(p1.x, p1.y, p2.x, p2.y);
+		}
 	}
 
 	float Model::getRadius()

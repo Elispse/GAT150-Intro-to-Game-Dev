@@ -1,14 +1,31 @@
 #include "Player.h"
-#include "Framework/Scene.h"
-#include "Input/InputSystem.h"
-#include "Renderer/Renderer.h"
 #include "ShipBlaster.h"
 #include "Weapon.h"
-#include "Framework/Resource/ResourceManager.h"
-#include "Framework/Component/Sprite.h"
-#include "Framework/Emitter.h"
+
+#include "Core/core.h"
+#include "Input/InputSystem.h"
+#include "Framework/Framework.h"
+#include "Renderer/Renderer.h"
 #include "Audio/AudioSystem.h"
-#include "Framework/Component/Physics.h"
+
+bool Player::Initialize()
+{
+    Actor::Initialize();
+    // cache off
+    m_physics = getComponent<Jackster::Physics>();
+    auto collision = getComponent<Jackster::Collision>();
+    if (collision)
+    {
+        auto renderComponent = getComponent<Jackster::RenderComponent>();
+        if (renderComponent)
+        {
+            float scale = m_transform.scale;
+            collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+        }
+    }
+
+    return false;
+}
 
 void Player::Update(float dt)
 {
@@ -22,12 +39,9 @@ void Player::Update(float dt)
 
     float thrust = 0;
     if (Jackster::g_inputSystem.GetKeyDown(SDL_SCANCODE_W)) thrust = 1;
-
     Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(m_transform.rotation);
 
-    auto physicsComponent = getComponent<Jackster::Physics>();
-    physicsComponent->ApplyForce(forward * m_speed * thrust);
-
+    m_physics->ApplyForce(forward * m_speed * thrust);
 
     //m_transform.position += forward * m_speed * thrust * Jackster::g_time.getDeltaTime();
     m_transform.position.x = Jackster::Wrap(m_transform.position.x, (float)Jackster::g_renderer.GetWidth());
@@ -36,8 +50,6 @@ void Player::Update(float dt)
     // fire weapon
     switch (pu_doubleShot)
     {
-    default:
-        break;
     case false:
         if (Jackster::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE) &&
             !Jackster::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))
@@ -48,9 +60,14 @@ void Player::Update(float dt)
             weapon->m_tag = "PlayerFire";
 
             std::unique_ptr<Jackster::Sprite> component = std::make_unique<Jackster::Sprite>();
-            component->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("New Piskel-1.png.png", Jackster::g_renderer);
+            component->m_texture = GET_RESOURCE(Jackster::Texture, "Missile.png", Jackster::g_renderer);
             weapon->addComponent(std::move(component));
 
+            auto collision = std::make_unique<Jackster::CircleCollision>();
+            collision->m_radius = 30.0f;
+            weapon->addComponent(std::move(collision));
+
+            weapon->Initialize();
             m_scene->Add(std::move(weapon));
             Jackster::g_audioSystem.PlayOneShot("player_Shoot");
         }
@@ -65,9 +82,14 @@ void Player::Update(float dt)
                 weapon->m_tag = "PlayerFire";
 
                 std::unique_ptr<Jackster::Sprite> component = std::make_unique<Jackster::Sprite>();
-                component->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("New Piskel-1.png.png", Jackster::g_renderer);
+                component->m_texture = GET_RESOURCE(Jackster::Texture, "Missile.png", Jackster::g_renderer);
                 weapon->addComponent(std::move(component));
 
+                auto collision = std::make_unique<Jackster::CircleCollision>();
+                collision->m_radius = 10.0f;
+                weapon->addComponent(std::move(collision));
+
+                weapon->Initialize();
                 m_scene->Add(std::move(weapon));
 
                 Jackster::Transform transform2{ m_transform.position, m_transform.rotation - Jackster::degreesToRadians(10.0f), 1};
@@ -75,9 +97,14 @@ void Player::Update(float dt)
                 weapon->m_tag = "PlayerFire";
 
                 std::unique_ptr<Jackster::Sprite> component2 = std::make_unique<Jackster::Sprite>();
-                component2->m_texture = Jackster::g_resManager.Get<Jackster::Texture>("New Piskel-1.png.png", Jackster::g_renderer);
+                component2->m_texture = GET_RESOURCE(Jackster::Texture, "Missile.png", Jackster::g_renderer);
                 weapon->addComponent(std::move(component2));
 
+                collision = std::make_unique<Jackster::CircleCollision>();
+                collision->m_radius = 10.0f;
+                weapon->addComponent(std::move(collision));
+
+                weapon->Initialize();
                 m_scene->Add(std::move(weapon));
                 Jackster::g_audioSystem.PlayOneShot("shoot");
             }

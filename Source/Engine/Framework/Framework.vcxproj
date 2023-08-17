@@ -20,15 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Component\CircleCollision.cpp" />
     <ClCompile Include="Component\EnginePhysics.cpp" />
     <ClCompile Include="Component\ModRendComp.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
     <ClCompile Include="Emitter.cpp" />
-    <ClCompile Include="Resource\ResourceManager.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Component\CircleCollision.h" />
+    <ClInclude Include="Component\Collision.h" />
     <ClInclude Include="Component\Components.h" />
     <ClInclude Include="Component\EnginePhysicsComp.h" />
     <ClInclude Include="Component\ModRendComp.h" />
@@ -36,11 +39,14 @@
     <ClInclude Include="Component\RenderComponent.h" />
     <ClInclude Include="Component\Sprite.h" />
     <ClInclude Include="Emitter.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Resource\Resource.h" />
     <ClInclude Include="Resource\ResourceManager.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

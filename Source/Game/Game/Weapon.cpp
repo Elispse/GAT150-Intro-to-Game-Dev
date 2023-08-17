@@ -1,4 +1,24 @@
 #include "Weapon.h"
+#include "Renderer/Renderer.h"
+#include "Framework/Framework.h"
+#include "Core/core.h"
+
+bool Weapon::Initialize()
+{
+    Actor::Initialize();
+    // cache off
+    auto collision = getComponent<Jackster::Collision>();
+    if (collision)
+    {
+        auto renderComponent = getComponent<Jackster::RenderComponent>();
+        if (renderComponent)
+        {
+            float scale = m_transform.scale;
+            collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+        }
+    }
+    return true;
+}
 
 void Weapon::Update(float dt)
 {

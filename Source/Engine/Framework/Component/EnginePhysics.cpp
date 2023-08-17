@@ -3,6 +3,8 @@
 
 namespace Jackster
 {
+	CLASS_DEFINITION(EnginePhysicsComp)
+
 	void EnginePhysicsComp::Update(float dt)
 	{
 		m_owner->m_transform.position += m_velocity * dt;

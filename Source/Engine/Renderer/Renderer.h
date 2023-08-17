@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <SDL2-2.28.1/include/SDL.h>
+#include <Core/Math/Transform.h>
 
 
 namespace Jackster {
@@ -28,6 +29,8 @@ namespace Jackster {
 		int GetHeight() const { return m_height; }
 
 		void DrawTexture(class Texture* texture, float x, float y, float angle = 0.0f);
+		void DrawTexture(class Texture* texure, const Transform& transform);
+
 		SDL_Renderer* m_renderer = nullptr;
 
 		friend class Text;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "Matrix33.h"
 
 namespace Jackster
 {
@@ -16,5 +17,13 @@ namespace Jackster
             position{ position },
             rotation{ rotation },
             scale{ scale } {}
+        mat3 getMatrix() const
+        {
+            mat3 ms = mat3::CreateScale(scale);
+            mat3 mr = mat3::CreateRotation(rotation);
+            mat3 mt = mat3::CreateTranslation(position);
+            mat3 mx = mt * ms * mr;
+            return mx;
+        }
     };
 };

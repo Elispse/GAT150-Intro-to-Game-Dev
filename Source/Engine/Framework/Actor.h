@@ -1,18 +1,23 @@
 #pragma once
-#include <Core/core.h>
 #include "Renderer/Model.h"
 #include "Component/Components.h"
+#include "Framework/Object.h"
 #include <memory>
 
 namespace Jackster
 {
-	class Actor
+	class Actor : public Object
 	{
 		public:
+			CLASS_DECLARATION(Actor)
+
 			Actor() = default;
 			Actor(const Jackster::Transform& transform) :
 				m_transform{ transform }
 			{}
+
+			virtual bool Initialize() override;
+			virtual void OnDestroy() override;
 
 			virtual void Update(float dt);
 			virtual void Draw(Renderer& renderer);
@@ -31,10 +36,10 @@ namespace Jackster
 			Transform m_transform;
 			std::string m_tag;
 			float m_lifespan = -1.0f;
-			bool m_destroyed = false;
 
 		protected:
 			std::vector<std::unique_ptr<class Component>> m_components;
+			bool m_destroyed = false;
 		};
 
 		template<typename T>

@@ -2,10 +2,10 @@
 #include <cmath>
 #include <sstream>
 
-namespace Jackster {
+namespace Jackster 
+{
 	class Vector2
 	{
-
 	public:
 		float x, y;
 
@@ -14,6 +14,11 @@ namespace Jackster {
 		Vector2(float v) : x{ v }, y{ v } {}
 		Vector2(float x, float y) : x{ x }, y{ y } {}
 		Vector2(int x, int y) : x{ (float)x }, y{ (float)y } {}
+
+		float operator [] (size_t index) const { return (&x)[index]; };
+		float& operator [] (size_t index) { return (&x)[index]; };
+
+		Vector2 operator - () const { return Vector2(-x, -y); };
 		
 		Vector2 add(const Vector2 v) const { return Vector2(x + v.x, y + v.y); }
 		Vector2 operator + (const Vector2& v) const { return Vector2(x + v.x, y + v.y); }
@@ -54,6 +59,7 @@ namespace Jackster {
 		static float SignedAngle(const Vector2& v1, const Vector2& v2);
 		static float Angle(const Vector2& v1, const Vector2& v2);
 		static float Dot(const Vector2& v1, const Vector2& v2);
+
 	};
 
 	// get the unsigned angle in radians between the normalized v1 and normalized v2
@@ -98,6 +104,12 @@ namespace Jackster {
 		float _y = x * std::sin(radians) + y * std::cos(radians);
 
 		return { _x,_y };
+	}
+
+	inline std::ostream& operator<<(std::ostream& stream, const Vector2& v)
+	{
+		stream << v.x << " " << v.y;
+		return stream;
 	}
 
 	using vec2 = Vector2;

@@ -1,4 +1,5 @@
 #include "ModRendComp.h"
+#include "Framework/Actor.h"
 
 namespace Jackster
 {
@@ -9,6 +10,6 @@ namespace Jackster
 
 	void ModRendComp::Draw(Renderer& rend)
 	{
-		//m_model->Draw(rend, m_owner->m_transform);
+		m_model->draw(rend, m_owner->m_transform);
 	}
 }

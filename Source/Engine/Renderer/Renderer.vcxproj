@@ -88,7 +88,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>sdl2.lib; sdl2main.lib; SDL2_ttf.lib SDL2_Image.lib</AdditionalDependencies>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;SDL2_ttf.lib;SDL2_image.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ThirdPartyDir)SDL2-2.28.1\lib\$(PlatformTarget)</AdditionalLibraryDirectories>
@@ -115,7 +115,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>sdl2.lib; sdl2main.lib; SDL2_ttf.lib SDL2_Image.lib</AdditionalDependencies>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;SDL2_ttf.lib;SDL2_image.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ThirdPartyDir)SDL2-2.28.1\lib\$(PlatformTarget)</AdditionalLibraryDirectories>
@@ -138,7 +138,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>sdl2.lib; sdl2main.lib; SDL2_ttf.lib SDL2_Image.lib</AdditionalDependencies>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;SDL2_ttf.lib;SDL2_image.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ThirdPartyDir)SDL2-2.28.1\lib\$(PlatformTarget)</AdditionalLibraryDirectories>
@@ -165,7 +165,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>sdl2.lib; sdl2main.lib; SDL2_ttf.lib SDL2_Image.lib</AdditionalDependencies>
+      <AdditionalDependencies>sdl2.lib;sdl2main.lib;SDL2_ttf.lib;SDL2_image.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(ThirdPartyDir)SDL2-2.28.1\lib\$(PlatformTarget)</AdditionalLibraryDirectories>

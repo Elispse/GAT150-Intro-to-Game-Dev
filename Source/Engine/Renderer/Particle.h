@@ -1,7 +1,6 @@
 #pragma once
-#include <Core/Vector2.h>
-#include <Core/Color.h>
-#include "Renderer.h"
+#include <Core/Math/Vector2.h>
+#include <Core/Math/Color.h>
 
 namespace Jackster
 {
@@ -26,7 +25,7 @@ namespace Jackster
 			m_isActive = true;
 		}
 		void Update(float dt);
-		void Draw(Renderer& renderer);
+		void Draw(class Renderer& renderer);
 
 		friend class ParticleSystem;
 

@@ -12,6 +12,7 @@
 
 
 
+
 class Star {
 public:
     Star(const Jackster::vec2& pos, const Jackster::vec2& vel) :
@@ -33,10 +34,47 @@ public:
     Jackster::vec2 m_vel;
 };
 
-Jackster::res_t<Jackster::Texture> texture = Jackster::g_resManager.Get<Jackster::Texture>("ship.png", Jackster::g_renderer);
+
+
 
 
 int main(int argc, char* argv[]) {
+
+
+    Jackster::MemoryTracker::Initialize();
+    Jackster::seedRandom((unsigned int)time(nullptr));
+    Jackster::setFilePath("assets");
+    rapidjson::Document document;
+    Jackster::Json::Load("json.txt", document);
+
+    int i1;
+    Jackster::Json::Read(document, "integer1", i1);
+    std::cout << i1 << std::endl;
+
+    int i2;
+    Jackster::Json::Read(document, "integer2", i2);
+    std::cout << i2 << std::endl;
+
+    std::string str;
+    Jackster::Json::Read(document, "string", str);
+        std::cout << str << std::endl;
+
+    bool b;
+    Jackster::Json::Read(document, "boolean", b);
+        std::cout << b << std::endl;
+
+    float f;
+    Jackster::Json::Read(document, "float", f);
+        std::cout << f << std::endl;
+
+    Jackster::vec2 v2;
+    Jackster::Json::Read(document, "Vector", v2);
+        std::cout << v2 << std::endl;
+
+
+    Jackster::Factory::Instance().Register<Jackster::Sprite>("Sprite");
+    Jackster::Factory::Instance().Register<Jackster::CircleCollision>("CircleCollision");
+
 
     INFO_LOG("Initializng Engine...")
 
@@ -112,10 +150,6 @@ int main(int argc, char* argv[]) {
         // Draw Game
         Jackster::g_renderer.setColor(0, 0, 0, 0);
         Jackster::g_renderer.BeginFrame();
-
-        //load texture - resource manager assignment
-        Jackster::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
-
 
         //Update stars
         for (auto& star : stars)

@@ -22,9 +22,6 @@
     <ClCompile Include="Emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Resource\ResourceManager.cpp">
-      <Filter>Source Files\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Component\Sprite.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
@@ -33,6 +30,12 @@
     </ClCompile>
     <ClCompile Include="Component\EnginePhysics.cpp">
       <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\CircleCollision.cpp">
+      <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +77,21 @@
     </ClInclude>
     <ClInclude Include="Framework.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Collision.h">
+      <Filter>Source Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\CircleCollision.h">
+      <Filter>Source Files\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,11 +2,14 @@
 #include <map>
 #include <string>
 #include <memory>
+#include "Framework/Singleton.h"
 #include "Resource.h"
+
+#define GET_RESOURCE(type, filename, ...) Jackster::ResourceManager::Instance().Get<type>(filename, __VA_ARGS__)
 
 namespace Jackster
 {
-	class ResourceManager
+	class ResourceManager : public Singleton<ResourceManager>
 	{
 	public:
 
@@ -33,6 +36,4 @@ namespace Jackster
 
 		return resource;
 	}
-
-	extern ResourceManager g_resManager;
 }

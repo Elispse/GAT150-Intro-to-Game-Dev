@@ -1,6 +1,7 @@
 #include "Emitter.h"
 #include "Renderer/Particle.h"
 #include "Renderer/ParticleSystem.h"
+#include "Core/core.h"
 
 namespace Jackster {
 	void Emitter::Update(float dt)
