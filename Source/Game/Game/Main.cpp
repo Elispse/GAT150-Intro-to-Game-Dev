@@ -1,16 +1,19 @@
 #include "Core/core.h"
-#include "Framework/Framework.h"
-
-#include "ShipBlaster.h"
-
-#include "Audio/AudioSystem.h"
+#include "Renderer/Renderer.h"
 
 #include "Input/InputSystem.h"
 
-#include <Renderer/Renderer.h>
+#include "Audio/AudioSystem.h"
+
+#include "Framework/Framework.h"
+
+#include "Physics/PhysicsSystem.h"
+#include "Physics/.vs/Physics/PhysicsSystem.h"
+
+#include "ShipBlaster.h"
 #include "Renderer/ParticleSystem.h"
 
-
+#include <functional>
 
 
 class Star {
@@ -34,62 +37,32 @@ public:
     Jackster::vec2 m_vel;
 };
 
-
-
-
+void print(int i)
+{
+    std::cout << i << std::endl;
+}
 
 int main(int argc, char* argv[]) {
 
-
-    Jackster::MemoryTracker::Initialize();
-    Jackster::seedRandom((unsigned int)time(nullptr));
-    Jackster::setFilePath("assets");
-    rapidjson::Document document;
-    Jackster::Json::Load("json.txt", document);
-
-    int i1;
-    Jackster::Json::Read(document, "integer1", i1);
-    std::cout << i1 << std::endl;
-
-    int i2;
-    Jackster::Json::Read(document, "integer2", i2);
-    std::cout << i2 << std::endl;
-
-    std::string str;
-    Jackster::Json::Read(document, "string", str);
-        std::cout << str << std::endl;
-
-    bool b;
-    Jackster::Json::Read(document, "boolean", b);
-        std::cout << b << std::endl;
-
-    float f;
-    Jackster::Json::Read(document, "float", f);
-        std::cout << f << std::endl;
-
-    Jackster::vec2 v2;
-    Jackster::Json::Read(document, "Vector", v2);
-        std::cout << v2 << std::endl;
-
-
-    Jackster::Factory::Instance().Register<Jackster::Sprite>("Sprite");
-    Jackster::Factory::Instance().Register<Jackster::CircleCollision>("CircleCollision");
-
+    void (*func_ptr)(int) = &print;
+    func_ptr(5);
 
     INFO_LOG("Initializng Engine...")
 
-    Jackster::MemoryTracker::Initialize();
-    Jackster::seedRandom((unsigned) time(nullptr));
+        Jackster::MemoryTracker::Initialize();
+    Jackster::seedRandom((unsigned)time(nullptr));
     Jackster::setFilePath("assets");
 
-    
+
     Jackster::g_renderer.Initialize();
     Jackster::g_renderer.CreateWindow("CSC196", 800, 600);
 
     Jackster::g_inputSystem.Initialize();
     Jackster::g_audioSystem.Initialize();
+    Jackster::PhysicsSystem::Instance().Initialize();
 
-    std::unique_ptr<ShipBlaster> game = std::make_unique<ShipBlaster>();
+
+    std::unique_ptr<Jackster::ShipBlaster> game = std::make_unique<Jackster::ShipBlaster>();
     game->Initialize();
 
     std::vector<Star> stars;
@@ -137,7 +110,7 @@ int main(int argc, char* argv[]) {
             data.color = Jackster::Color{ 1, 1, 1, 1 };
             Jackster::Transform transform{ { Jackster::g_inputSystem.GetMousePosition() }, 0, 1 };
             auto emitter = std::make_unique<Jackster::Emitter>(transform, data);
-            emitter->m_lifespan = 1.0f;
+            emitter->lifespan = 1.0f;
             game->m_scene->Add(std::move(emitter));
         }
 
@@ -151,6 +124,10 @@ int main(int argc, char* argv[]) {
         Jackster::g_renderer.setColor(0, 0, 0, 0);
         Jackster::g_renderer.BeginFrame();
 
+        //draws frame
+        game->Draw(Jackster::g_renderer);
+        Jackster::g_particleSystem.Draw(Jackster::g_renderer);
+
         //Update stars
         for (auto& star : stars)
         {
@@ -163,13 +140,12 @@ int main(int argc, char* argv[]) {
             if (star.m_pos.y >= Jackster::g_renderer.GetHeight()) star.m_pos.y = 0;
 
             Jackster::g_renderer.setColor(Jackster::random(256), 255, 255, 255);
-            Jackster::g_renderer.setColor(Jackster::random(256), Jackster::random(256), Jackster::random(256), 255);//draw
+            Jackster::g_renderer.setColor(Jackster::random(256), Jackster::random(256), Jackster::random(256), 255);
+            //draw
             Jackster::g_renderer.drawPoint(star.m_pos.x, star.m_pos.y);
         }
 
-        //draws frame
-        game->Draw(Jackster::g_renderer);
-        Jackster::g_particleSystem.Draw(Jackster::g_renderer);
+
         //ends frame
         Jackster::g_renderer.EndFrame();
     }

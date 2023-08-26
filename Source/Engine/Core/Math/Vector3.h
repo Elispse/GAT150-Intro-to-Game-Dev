@@ -13,7 +13,7 @@ namespace Jackster
 		Vector3() : x{ 0 }, y{ 0 }, z{ 0 } {};
 		Vector3(float v) : x{ v }, y{ v }, z{ v } {};
 		Vector3(float x, float y, float z) : x{ x }, y{ y }, z{ z } {};
-		Vector3(int x, int y, int) : x{ (float)x }, y{ (float)y }, z{ (float)z } {};
+		Vector3(int x, int y, int z) : x{ (float)x }, y{ (float)y }, z{ (float)z } {};
 
 		float operator [] (size_t index) const { return (&x)[index]; };
 		float& operator [] (size_t index) { return (&x)[index]; };

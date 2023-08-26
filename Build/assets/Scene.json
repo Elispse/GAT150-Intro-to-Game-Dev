@@ -1,0 +1,68 @@
+{
+  "actors": [
+    {
+      "type": "Actor",
+      "name": "Background",
+      "persistent": false,
+      "transform": {
+        "position": [
+          400,
+          300
+        ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "component": [
+        {
+          "type": "Sprite",
+          "textureName": "spaceland.png"
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Title",
+      "persistent": true,
+      "transform": {
+        "position": [
+          400,
+          300
+        ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "component": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "arcadeclassic.ttf",
+          "fontSize": 24,
+          "text": "ASTEROIDZ"
+        }
+      ]
+    },
+    {
+      "type": "Weapon",
+      "name": "Rocket",
+      "prototype": true,
+      "lifespan": 2,
+      "transform": {
+        "position": [
+          400,
+          300
+        ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "speed": 300,
+      "component": [
+        {
+          "type": "Sprite",
+          "textureName": "rocket.png"
+        },
+        {
+          "type": "CircleCollision"
+        }
+      ]
+    }
+  ]
+}

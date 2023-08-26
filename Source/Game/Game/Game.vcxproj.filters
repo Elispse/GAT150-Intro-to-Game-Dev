@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{c0fe69dc-c1a1-4d44-b7c2-67c7caa1bf8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -42,5 +45,10 @@
     <ClInclude Include="PowerUps.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\Build\assets\Scene.json">
+      <Filter>Assets</Filter>
+    </Text>
   </ItemGroup>
 </Project>

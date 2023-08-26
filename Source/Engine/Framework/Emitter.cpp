@@ -41,10 +41,10 @@ namespace Jackster {
 			ParticleData data;
 			data.lifetime = randomf(m_data.lifetimeMin, m_data.lifetimeMax);
 			data.lifetimer = 0.0f;
-			data.position = m_transform.position;
+			data.position = transform.position;
 			data.prevPosition = data.position;
 			data.color = m_data.color;
-			float angle = m_transform.rotation + m_data.angle + randomf(0, 360);
+			float angle = transform.rotation + m_data.angle + randomf(0, 360);
 			vec2 direction = vec2{ 0, -1 }.Rotate(angle);
 			data.velocity = direction * randomf(m_data.speedMin, m_data.speedMax);
 			data.damping = m_data.damping;

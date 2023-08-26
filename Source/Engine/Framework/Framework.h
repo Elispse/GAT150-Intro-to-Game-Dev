@@ -5,7 +5,7 @@
 #include "Emitter.h"
 #include "Actor.h"
 
-#include "Component/Components.h"
+#include "Component/Component.h"
 
 #include "Component/EnginePhysicsComp.h"
 #include "Component/Physics.h"
@@ -21,3 +21,5 @@
 #include "Resource/ResourceManager.h"
 
 #include "Factory.h"
+#include "Resource/ResourceManager.h"
+#include "Event/EventManager.h"

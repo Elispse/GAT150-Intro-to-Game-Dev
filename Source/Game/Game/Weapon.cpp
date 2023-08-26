@@ -3,39 +3,52 @@
 #include "Framework/Framework.h"
 #include "Core/core.h"
 
-bool Weapon::Initialize()
+namespace Jackster
 {
-    Actor::Initialize();
-    // cache off
-    auto collision = getComponent<Jackster::Collision>();
-    if (collision)
+    CLASS_DEFINITION(Weapon)
+
+    bool Weapon::Initialize()
     {
-        auto renderComponent = getComponent<Jackster::RenderComponent>();
-        if (renderComponent)
+        Actor::Initialize();
+    
+        // cache off
+        auto collision = getComponent<Jackster::Collision>();
+        if (collision)
         {
-            float scale = m_transform.scale;
-            collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+            auto renderComponent = getComponent<Jackster::RenderComponent>();
+            if (renderComponent)
+            {
+                float scale = transform.scale;
+                collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+            }
+        }
+        return true;
+    }
+
+    void Weapon::Update(float dt)
+    {
+        Actor::Update(dt);
+    
+        Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(transform.rotation);
+        transform.position += forward * speed * Jackster::g_time.getDeltaTime();
+        if (transform.position.x > Jackster::g_renderer.GetWidth() && transform.position.y > Jackster::g_renderer.GetHeight())
+        {
+            destroyed = true;
         }
     }
-    return true;
-}
 
-void Weapon::Update(float dt)
-{
-    Actor::Update(dt);
-    
-    Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(m_transform.rotation);
-    m_transform.position += forward * m_speed * Jackster::g_time.getDeltaTime();
-    if (m_transform.position.x > Jackster::g_renderer.GetWidth() && m_transform.position.y > Jackster::g_renderer.GetHeight())
+    void Weapon::onCollision(Actor* other)
     {
-        m_destroyed = true;
+        if (other->tag != tag)
+        {
+            destroyed = true;
+        }
     }
-}
 
-void Weapon::onCollision(Actor* other)
-{
-    if (other->m_tag != m_tag)
+    void Weapon::Read(const Jackster::json_t& value)
     {
-        m_destroyed = true;
+        Actor::Read(value);
+
+        READ_DATA(value, speed);
     }
 }

@@ -1,20 +1,20 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Core/Json.h"
 
-class Weapon : public Jackster::Actor
+namespace Jackster
 {
-public:
-	Weapon(float speed, const Jackster::Transform& transform) :
-		Actor{ transform },
-		m_speed{ speed }
+	class Weapon : public Jackster::Actor
 	{
-		m_lifespan = 2.0f;
-	}
+	public:
 
-	bool Initialize() override;
-	void Update(float dt) override;
-	virtual void onCollision(Actor* actor) override;
-private:
-	float m_speed = 0;
-};
+		CLASS_DECLARATION(Weapon)
 
+		bool Initialize() override;
+		void Update(float dt) override;
+		virtual void onCollision(Actor* actor) override;
+
+	private:
+		float speed = 0;
+	};
+}

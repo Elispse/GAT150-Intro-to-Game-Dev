@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "Matrix33.h"
+#include "Core/Json.h"
 
 namespace Jackster
 {
@@ -17,6 +18,7 @@ namespace Jackster
             position{ position },
             rotation{ rotation },
             scale{ scale } {}
+
         mat3 getMatrix() const
         {
             mat3 ms = mat3::CreateScale(scale);
@@ -25,5 +27,7 @@ namespace Jackster
             mat3 mx = mt * ms * mr;
             return mx;
         }
+
+        void Read(const json_t& value);
     };
 };

@@ -8,94 +8,96 @@
 #include "Framework/Framework.h"
 #include "Renderer/Renderer.h"
 
-
-
-bool Enemy::Initialize()
+namespace Jackster
 {
-    Actor::Initialize();
-    // cache off
-    auto collision = getComponent<Jackster::Collision>();
-    if (collision)
+    bool Enemy::Initialize()
     {
-        auto renderComponent = getComponent<Jackster::RenderComponent>();
-        if (renderComponent)
+        Actor::Initialize();
+        // cache off
+        auto collision = getComponent<Jackster::Collision>();
+        if (collision)
         {
-            float scale = m_transform.scale;
-            collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+            auto renderComponent = getComponent<Jackster::RenderComponent>();
+            if (renderComponent)
+            {
+                float scale = transform.scale;
+                collision->m_radius = getComponent<Jackster::RenderComponent>()->GetRadius() * scale;
+            }
+        }
+        return true;
+    }
+
+    void Enemy::Update(float dt)
+    {
+        Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(transform.rotation);
+        Actor::Update(dt);
+
+        auto* player = m_scene->getActor<Player>();
+        if (player)
+        {
+            Jackster::Vector2 direction = player->transform.position - transform.position;
+
+            float turnAngle = Jackster::vec2::SignedAngle(forward, direction.normalized());
+            //turn towards player
+            transform.rotation += turnAngle * 5 * dt;
+
+            // Check if player is infront
+            if (std::fabs(turnAngle) < Jackster::degreesToRadians(30.0f))
+            {
+                // i see you
+            }
+        }
+
+        transform.position += forward * m_speed * Jackster::g_time.getDeltaTime();
+        transform.position.x = Jackster::Wrap(transform.position.x, (float)Jackster::g_renderer.GetWidth());
+        transform.position.y = Jackster::Wrap(transform.position.y, (float)Jackster::g_renderer.GetHeight());
+
+        m_fireTimer -= dt;
+        if (m_fireTimer <= 0)
+        {
+            m_fireTimer = m_fireRate;
+            // Create Weapon
+             auto weapon = INSTANTIATE(Weapon, "Rocket");
+                weapon->transform = { transform.position, transform.rotation, 1 };
+                weapon->Initialize();
+                weapon->tag = "EnemyFire";
+                m_scene->Add(std::move(weapon));
         }
     }
-    return true;
-}
 
-void Enemy::Update(float dt)
-{
-    Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(m_transform.rotation);
-    Actor::Update(dt);
-
-    auto* player = m_scene->getActor<Player>();
-    if (player)
+    void Enemy::onCollision(Actor* other)
     {
-        Jackster::Vector2 direction = player->m_transform.position - m_transform.position;
-
-        float turnAngle = Jackster::vec2::SignedAngle(forward, direction.normalized());
-        //turn towards player
-        m_transform.rotation += turnAngle * 5 * dt;
-
-        // Check if player is infront
-        if (std::fabs(turnAngle) < Jackster::degreesToRadians(30.0f))
+        if (other->tag == "PlayerFire")
         {
-            // i see you
+            Jackster::EventManager::Instance().DispatchEvent("AddPoints", 100);
+            m_health -= 5;
+            if (m_health <= 0) destroyed = true;
+
+
+
+            //m_game->addPoints(100);
+
+
+            Jackster::EmitterData data;
+            data.burst = true;
+            data.burstCount = 100;
+            data.spawnRate = 0;
+            data.angle = 0;
+            data.angleRange = Jackster::pi;
+            data.lifetimeMin = 0.5f;
+            data.lifetimeMax = 1.5f;
+            data.speedMin = 50;
+            data.speedMax = 250;
+            data.damping = 0.5f;
+
+            data.color = Jackster::Color{ 1, 0, 0, 1 };
+
+            Jackster::Transform transform{ this->transform.position, 0, 1 };
+            auto emitter = std::make_unique<Jackster::Emitter>(transform, data);
+            emitter->lifespan = 0.1f;
+            m_scene->Add(std::move(emitter));
+
+
         }
-    }
-
-    m_transform.position += forward * m_speed * Jackster::g_time.getDeltaTime();
-    m_transform.position.x = Jackster::Wrap(m_transform.position.x, (float)Jackster::g_renderer.GetWidth());
-    m_transform.position.y = Jackster::Wrap(m_transform.position.y, (float)Jackster::g_renderer.GetHeight());
-
-    m_fireTimer -= dt;
-    if (m_fireTimer <= 0)
-    {
-        m_fireTimer = m_fireRate;
-        // Create Weapon
-        Jackster::Transform transform{ m_transform.position, m_transform.rotation};
-        std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform);
-        weapon->m_tag = "EnemyFire";
-        m_scene->Add(std::move(weapon));
-        Jackster::g_audioSystem.PlayOneShot("enemy_Shoot");
-    }
-}
-
-void Enemy::onCollision(Actor* other)
-{
-    if (other->m_tag == "PlayerFire")
-    {
-
-        std::unique_ptr<ShipBlaster> game = std::make_unique<ShipBlaster>();
-        game->Initialize();
-
-
-
-        m_game->addPoints(100);
-        m_health -= 5;
-        if (m_health <= 0) m_destroyed = true;
-
-        Jackster::EmitterData data;
-        data.burst = true;
-        data.burstCount = 100;
-        data.spawnRate = 0;
-        data.angle = 0;
-        data.angleRange = Jackster::pi;
-        data.lifetimeMin = 0.5f;
-        data.lifetimeMax = 1.5f;
-        data.speedMin = 50;
-        data.speedMax = 250;
-        data.damping = 0.5f;
-        data.color = Jackster::Color{ 1, 0, 0, 1 };
-        Jackster::Transform transform{ m_transform.position, 0, 1 };
-        auto emitter = std::make_unique<Jackster::Emitter>(transform, data);
-        emitter->m_lifespan = 0.1f;
-        m_scene->Add(std::move(emitter));
-
-
     }
 }

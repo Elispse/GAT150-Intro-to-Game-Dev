@@ -41,12 +41,13 @@ namespace Jackster
 
     bool Json::Read(const rapidjson::Value& value, const std::string& name, float& data, bool required)
     {
-        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsFloat())
+        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsNumber())
         {
             if (required) ERROR_LOG("Cannot read required json data: " << name.c_str());
             return false;
         }
         data = value[name.c_str()].GetFloat();
+        return true;
     }
 
     bool Json::Read(const rapidjson::Value& value, const std::string& name, bool& data, bool required)
@@ -57,6 +58,7 @@ namespace Jackster
             return false;
         }
         data = value[name.c_str()].GetBool();
+        return true;
     }
 
     bool Json::Read(const rapidjson::Value& value, const std::string& name, std::string& data, bool required)
@@ -67,6 +69,7 @@ namespace Jackster
             return false;
         }
         data = value[name.c_str()].GetString();
+        return true;
     }
 
     bool Json::Read(const rapidjson::Value& value, const std::string& name, vec2& data, bool required)

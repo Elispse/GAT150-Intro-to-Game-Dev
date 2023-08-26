@@ -4,18 +4,9 @@
 
 namespace Jackster
 {
-	Logger g_logger(Jackster::Info, &std::cout, "Log.txt");
-
 	bool Logger::Log(logLevel logLevel, const std::string& filename, int line)
 	{
-		if (logLevel < m_logLevel)
-		{
-			return false;
-		}
-		else 
-		{
-			return true;
-		}
+		if (logLevel < m_logLevel) return false;
 
 		switch (logLevel)
 		{

@@ -11,6 +11,9 @@
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{c4390ff8-3e4c-4c47-8876-80e48a09ea7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Event">
+      <UniqueIdentifier>{137cca2c-09a3-4d19-9275-ba0b8391304d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -28,7 +31,7 @@
     <ClCompile Include="Component\ModRendComp.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Component\EnginePhysics.cpp">
+    <ClCompile Include="Component\EnginePhysicsComp.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
     <ClCompile Include="Component\CircleCollision.cpp">
@@ -36,6 +39,12 @@
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\TextRenderComponent.cpp">
+      <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\EventManager.cpp">
+      <Filter>Source Files\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +66,7 @@
     <ClInclude Include="Resource\ResourceManager.h">
       <Filter>Source Files\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Component\Components.h">
+    <ClInclude Include="Component\Component.h">
       <Filter>Source Files\Component</Filter>
     </ClInclude>
     <ClInclude Include="Component\RenderComponent.h">
@@ -92,6 +101,15 @@
     </ClInclude>
     <ClInclude Include="Component\CircleCollision.h">
       <Filter>Source Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\TextRenderComponent.h">
+      <Filter>Source Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\Event.h">
+      <Filter>Source Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\EventManager.h">
+      <Filter>Source Files\Event</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -32,7 +32,7 @@ bool Jackster::Font::Create(std::string filename, ...)
 bool Jackster::Font::Load(const std::string& fileName, int fontSize)
 {
 	m_ttfFont = TTF_OpenFont(fileName.c_str(), fontSize);
-	if (m_ttfFont = nullptr)
+	if (m_ttfFont == nullptr)
 	{
 		WARNING_LOG("failed to open font:" << fileName);
 		return false;

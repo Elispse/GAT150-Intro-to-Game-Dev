@@ -12,9 +12,14 @@ namespace Jackster
 
 	bool CircleCollision::collisionCheck(Collision* collision)
 	{
-		float distance = m_owner->m_transform.position.distance(collision->GetOwner()->m_transform.position);
+		float distance = m_owner->transform.position.distance(collision->GetOwner()->transform.position);
 		float radius = m_radius + collision->m_radius;
 		
 		return (distance <= radius);
+	}
+
+	void CircleCollision::Read(const json_t& value)
+	{
+
 	}
 }

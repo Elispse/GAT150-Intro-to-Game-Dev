@@ -1,47 +1,53 @@
 #pragma once
 #include "Framework/Game.h"
+#include "Framework/Event/EventManager.h"
 #include "Renderer/Text.h"
 
-class ShipBlaster : public Jackster::Game
+namespace Jackster
 {
-public:
-	enum class eState
+	class ShipBlaster : public Jackster::Game, Jackster::IEventListener
 	{
-		Title,
-		StartGame,
-		StartLevel,
-		Game,
-		PlayerDeadStart,
-		PlayerDead,
-		GameOver
-	};
+	public:
+		enum class eState
+		{
+			Title,
+			StartGame,
+			StartLevel,
+			Game,
+			PlayerDeadStart,
+			PlayerDead,
+			GameOver
+		};
 
-public:
+	public:
 
 
-	// Inherited via Game
-	virtual bool Initialize() override;
+		// Inherited via Game
+		virtual bool Initialize() override;
 
-	virtual void Shutdown() override;
+		virtual void Shutdown() override;
 
-	virtual void Update(float dt) override;
+		virtual void Update(float dt) override;
 
-	virtual void Draw(Jackster::Renderer& renderer) override;
+		virtual void Draw(Jackster::Renderer& renderer) override;
 
-	void setState(eState state) { m_state = state; }
+		void setState(eState state) { m_state = state; }
+		void OnAddPoints(const Jackster::Event& event);
+		void OnPlayerDead(const Jackster::Event& event);
 
-	void endGameFireworks();
+		void endGameFireworks();
 	
-private:
-	eState m_state = eState::Title;
-	float m_spawnTimer = 0.0f;
-	float m_spawnTime = 3.0f;
-	unsigned short enemyCount = 0;
-	float m_stateTimer = 0;
+	private:
+		eState m_state = eState::Title;
+		float m_spawnTimer = 0.0f;
+		float m_spawnTime = 3.0f;
+		unsigned short enemyCount = 0;
+		float m_stateTimer = 0;
 
-	std::shared_ptr<Jackster::Font> m_font;
-	std::unique_ptr<Jackster::Text> m_scoreText;
-	std::unique_ptr<Jackster::Text> m_titleText;
-	std::unique_ptr<Jackster::Text> m_gameOverText;
+		std::shared_ptr<Jackster::Font> m_font;
+		std::unique_ptr<Jackster::Text> m_scoreText;
+		std::unique_ptr<Jackster::Text> m_titleText;
+		std::unique_ptr<Jackster::Text> m_gameOverText;
 
-};
+	};
+}

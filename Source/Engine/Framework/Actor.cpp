@@ -5,9 +5,25 @@ namespace Jackster
 {
 	CLASS_DEFINITION(Actor)
 
+		Actor::Actor(const Actor& other)
+	{
+		name = other.name;
+		tag = other.tag;
+		lifespan = other.lifespan;
+		transform = other.transform;
+		m_scene = other.m_scene;
+		m_game = other.m_game;
+
+		for (auto& component : other.components)
+		{
+			auto cloneComponent = std::unique_ptr<Component>(dynamic_cast<Component*>(component->Clone().release()));
+			addComponent(std::move(cloneComponent));
+		}
+	}
+
 	bool Actor::Initialize()
 	{
-		for (auto& Component : m_components)
+		for (auto& Component : components)
 		{
 			Component->Initialize();
 		}
@@ -16,19 +32,19 @@ namespace Jackster
 	}
 	void Actor::OnDestroy()
 	{
-		for (auto& Component : m_components)
+		for (auto& Component : components)
 		{
 			Component->OnDestroy();
 		}
 	}
 	void Actor::Update(float dt)
 	{
-		if (m_lifespan != -1.0f)
+		if (lifespan != -1.0f)
 		{
-			m_lifespan -= dt;
-			m_destroyed = (m_lifespan <= 0);
+			lifespan -= dt;
+			destroyed = (lifespan <= 0);
 		}
-		for (auto& Component : m_components)
+		for (auto& Component : components)
 		{
 			Component->Update(dt);
 		}
@@ -37,7 +53,7 @@ namespace Jackster
 	void Actor::Draw(Jackster::Renderer& renderer)
 	{
 		//if (m_model) m_model->Draw(renderer, m_transform);
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			if (dynamic_cast<RenderComponent*>(component.get()))
 			{
@@ -49,13 +65,34 @@ namespace Jackster
 	void Actor::addComponent(std::unique_ptr<Component> component)
 	{
 		component->m_owner = this;
-		m_components.push_back(std::move(component));
+		components.push_back(std::move(component));
 	}
 
-	bool Actor::Read(const rapidjson::Value& value)
+	void Actor::Read(const json_t& value)
 	{
+		//GET_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
 
-		return true;
+		Object::Read(value);
+
+		READ_DATA(value, tag);
+		READ_DATA(value, lifespan);
+		READ_DATA(value, persistent);
+		READ_DATA(value, prototype);
+
+		if (HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
+
+		if (HAS_DATA(value, component) && GET_DATA(value, component).IsArray())
+		{
+			for (auto& componentValue : GET_DATA(value, component).GetArray())
+			{
+				std::string type;
+				READ_DATA(componentValue, type);
+
+				auto component = CREATE_CLASS_BASE(Component, type);
+				component->Read(componentValue);
+
+				addComponent(std::move(component));
+			}
+		}
 	}
-
 }

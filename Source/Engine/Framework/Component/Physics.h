@@ -1,5 +1,5 @@
 #pragma once
-#include "Components.h"
+#include "Component.h"
 #include "Core/Math/Vector2.h"
 
 namespace Jackster

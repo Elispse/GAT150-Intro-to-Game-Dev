@@ -8,7 +8,7 @@ namespace Jackster
 	{
 	public:
 		CLASS_DECLARATION(CircleCollision);
-		// Inherited via Collision
+
 		virtual void Update(float dt) override;
 		virtual bool collisionCheck(Collision* collision) override;
 	};
