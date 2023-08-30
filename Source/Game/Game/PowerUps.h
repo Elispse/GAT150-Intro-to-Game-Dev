@@ -12,7 +12,7 @@ class PowerUps : public Jackster::Actor
 		}*/
 
 		void Update(float dt) override;
-		virtual void onCollision(Actor* actor) override;
+		virtual void onCollisionEnter(Actor* actor) override;
 	private:
 		float m_speed = 0;
 };

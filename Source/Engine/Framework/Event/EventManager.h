@@ -7,6 +7,7 @@
 
 #define EVENT_SUBSCRIBE(id, function)	Jackster::EventManager::Instance().Subscribe(id, this, std::bind(&function, this, std::placeholders::_1))
 #define EVENT_UNSUBSCRIBE(id)			Jackster::EventManager::Instance().Unsubscribe(id, this)
+#define EVENT_DISPATCH(id, data)        kiko::EventManager::Instance().DispatchEvent(id, data)
 
 namespace Jackster
 {

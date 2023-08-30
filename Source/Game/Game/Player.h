@@ -7,23 +7,19 @@ namespace Jackster
 	class Player : public Jackster::Actor
 	{
 	public:
-		Player(float speed, float turnRate, const Jackster::Transform& transform) :
-			Actor{ transform },
-			m_speed{speed},
-			m_turnRate{turnRate}
-		{}
+		CLASS_DECLARATION(Player)
 
 		bool Initialize() override;
 		void Update(float dt) override;
-		virtual void onCollision(Actor* actor) override;
-		bool pu_doubleShot = false;
 
+		void onCollisionEnter(Actor* actor) override;
+
+		bool pu_doubleShot = false;
 
 	private:
 		float m_speed = 0;
 		float m_turnRate = 0;
-		float m_health = 100.0f;
 
-		Jackster::Physics* m_physics = nullptr;
+		Jackster::Physics* m_physicsComponent = nullptr;
 	};
 }

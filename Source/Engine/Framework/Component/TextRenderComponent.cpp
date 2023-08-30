@@ -1,5 +1,5 @@
 #include "TextRenderComponent.h"
-#include <Framework/Resource/ResourceManager.h>
+#include "Framework/Resource/ResourceManager.h"
 #include "Framework/Actor.h"
 
 namespace Jackster
@@ -34,7 +34,7 @@ namespace Jackster
 		{
 			m_changed = false;
 			// create text using text string and color
-			m_text->Create(renderer, text, { 1, 1, 1, 1 });
+			m_text->Create(renderer, text, color);
 		}
 		// draw text
 		m_text->Draw(renderer, m_owner->transform); //< draw using renderer and transform >
@@ -59,5 +59,7 @@ namespace Jackster
 		READ_DATA(value, fontName);
 		//<read data font size>
 		READ_DATA(value, fontSize);
+		// read color data
+		READ_DATA(value, color);
 	}
 }

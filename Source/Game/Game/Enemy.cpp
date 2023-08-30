@@ -8,12 +8,18 @@
 #include "Framework/Framework.h"
 #include "Renderer/Renderer.h"
 
+
+
+
 namespace Jackster
 {
+    CLASS_DEFINITION(Enemy)
+
     bool Enemy::Initialize()
     {
         Actor::Initialize();
         // cache off
+        m_physicsComponent = getComponent<Physics>();
         auto collision = getComponent<Jackster::Collision>();
         if (collision)
         {
@@ -25,6 +31,11 @@ namespace Jackster
             }
         }
         return true;
+    }
+
+    void Enemy::OnDestroy()
+    {
+        Actor::OnDestroy();
     }
 
     void Enemy::Update(float dt)
@@ -39,7 +50,8 @@ namespace Jackster
 
             float turnAngle = Jackster::vec2::SignedAngle(forward, direction.normalized());
             //turn towards player
-            transform.rotation += turnAngle * 5 * dt;
+            //transform.rotation += turnAngle * 5 * dt;
+            m_physicsComponent->ApplyForce(turnAngle);
 
             // Check if player is infront
             if (std::fabs(turnAngle) < Jackster::degreesToRadians(30.0f))
@@ -48,7 +60,8 @@ namespace Jackster
             }
         }
 
-        transform.position += forward * m_speed * Jackster::g_time.getDeltaTime();
+        m_physicsComponent->ApplyForce(forward * m_speed);
+        //transform.position += forward * m_speed * Jackster::g_time.getDeltaTime();
         transform.position.x = Jackster::Wrap(transform.position.x, (float)Jackster::g_renderer.GetWidth());
         transform.position.y = Jackster::Wrap(transform.position.y, (float)Jackster::g_renderer.GetHeight());
 
@@ -65,7 +78,16 @@ namespace Jackster
         }
     }
 
-    void Enemy::onCollision(Actor* other)
+    void Enemy::Read(const json_t& value)
+    {
+        Actor::Read(value);
+        READ_DATA(value, m_speed);
+        READ_DATA(value, m_turnRate);
+        READ_DATA(value, m_fireRate);
+
+    }
+
+    void Enemy::onCollisionEnter(Actor* other)
     {
         if (other->tag == "PlayerFire")
         {

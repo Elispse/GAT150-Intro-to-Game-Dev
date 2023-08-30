@@ -1,0 +1,168 @@
+{
+  "actors": [
+    {
+      "type": "Actor",
+      "name": "Background",
+      "persistent": true,
+      "transform": {
+        "position": [ 400, 300 ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "Sprite",
+          "textureName": "textures/background.png"
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Title",
+      "persistent": true,
+      "transform": {
+        "position": [ 560, 400 ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "8bitOperatorPlus8-Bold.ttf",
+          "fontSize": 48,
+          "text": "CornMan",
+          "color": [ 0, 0, 0, 0 ]
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Coin",
+      "persistent": true,
+      "transform": {
+        "position": [ 400, 300 ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimRenderComponent",
+          "defaultSequenceName": "idle",
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 12,
+              "numColumns": 8,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 8,
+              "textureName": "Textures/coin.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent"
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 1
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Crate",
+      "tag": "Ground",
+      "persistent": true,
+      "prototype": true,
+      "transform": {
+        "position": [ 300, 300 ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "Sprite",
+          "textureName": "textures/crate.png"
+        },
+        {
+          "type": "Box2DPhysicsComponent"
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0.1
+        }
+      ]
+    },
+    {
+      "type": "Player",
+      "name": "Player",
+      "tag": "Player",
+      "persistent": true,
+      "m_speed": 300,
+      "maxSpeed":  8,
+      "jump": 8,
+      "transform": {
+        "position": [ 500, 300 ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimRenderComponent",
+          "defaultSequenceName": "run",
+          "source": [0, 0, 24, 16 ],
+          "origin": [0.5, 1],
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 8,
+              "numColumns": 10,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 10,
+              "textureName": "Textures/Asset Pack-V1/Sprite Sheets/Character Idle 48x48.png"
+            },
+            {
+              "name": "run",
+              "fps": 8,
+              "numColumns": 8,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 8,
+              "textureName": "Textures/Asset Pack-V1/Sprite Sheets/run cycle 48x48.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "constrainAngle": true
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "tag": "Ground",
+      "transform": {
+        "position": [
+          400,
+          520
+        ]
+      },
+      "components": [
+        {
+          "type": "Box2DPhysicsComponent",
+          "isDynamic": false
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "size": [ 600, 20 ]
+        }
+      ]
+    }
+  ]
+}

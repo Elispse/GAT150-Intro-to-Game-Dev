@@ -28,24 +28,6 @@ namespace Jackster
 				iter++;
 			}
 		}
-
-		//check collisions
-		for (auto iter1 = m_actors.begin(); iter1 != m_actors.end(); iter1++)
-		{
-			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++)
-			{
-				Collision* collision1 = (*iter1)->getComponent<Collision>();
-				Collision* collision2 = (*iter2)->getComponent<Collision>();
-
-				if (!collision1 || !collision2) continue;
-
-				if (collision1->collisionCheck(collision2))
-				{
-					(*iter1)->onCollision(iter2->get());
-					(*iter2)->onCollision(iter1->get());
-				}
-			}
-		}
 	}
 
 	void Scene::Draw(Renderer& renderer)

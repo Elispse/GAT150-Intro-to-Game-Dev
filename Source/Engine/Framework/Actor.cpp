@@ -27,8 +27,7 @@ namespace Jackster
 		{
 			Component->Initialize();
 		}
-
-		return false;
+		return true;
 	}
 	void Actor::OnDestroy()
 	{
@@ -70,8 +69,6 @@ namespace Jackster
 
 	void Actor::Read(const json_t& value)
 	{
-		//GET_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
-
 		Object::Read(value);
 
 		READ_DATA(value, tag);
@@ -81,9 +78,9 @@ namespace Jackster
 
 		if (HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
 
-		if (HAS_DATA(value, component) && GET_DATA(value, component).IsArray())
+		if (HAS_DATA(value, components) && GET_DATA(value, components).IsArray())
 		{
-			for (auto& componentValue : GET_DATA(value, component).GetArray())
+			for (auto& componentValue : GET_DATA(value, components).GetArray())
 			{
 				std::string type;
 				READ_DATA(componentValue, type);

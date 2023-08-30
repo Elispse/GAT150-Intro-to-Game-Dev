@@ -6,7 +6,7 @@ namespace Jackster
 	class Singleton
 	{
 	public:
-		Singleton(const Singleton& other) {}
+		Singleton(const Singleton& other) = delete;
 		Singleton& operator = (const Singleton& other) = delete;
 
 		static T& Instance()

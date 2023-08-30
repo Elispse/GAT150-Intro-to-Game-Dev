@@ -44,18 +44,15 @@ void print(int i)
 
 int main(int argc, char* argv[]) {
 
-    void (*func_ptr)(int) = &print;
-    func_ptr(5);
-
     INFO_LOG("Initializng Engine...")
 
         Jackster::MemoryTracker::Initialize();
     Jackster::seedRandom((unsigned)time(nullptr));
-    Jackster::setFilePath("assets");
+    Jackster::setFilePath("assets/space");
 
 
     Jackster::g_renderer.Initialize();
-    Jackster::g_renderer.CreateWindow("CSC196", 800, 600);
+    Jackster::g_renderer.CreateWindow("GAT150", 800, 600);
 
     Jackster::g_inputSystem.Initialize();
     Jackster::g_audioSystem.Initialize();
@@ -86,7 +83,7 @@ int main(int argc, char* argv[]) {
         Jackster::g_inputSystem.Update();
         Jackster::g_audioSystem.Update();
         Jackster::g_particleSystem.Update(Jackster::g_time.getDeltaTime());
-
+        Jackster::PhysicsSystem::Instance().Update(Jackster::g_time.getDeltaTime());
         
 
         if (Jackster::g_inputSystem.GetKeyDown(SDL_SCANCODE_ESCAPE))

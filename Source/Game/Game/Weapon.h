@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Framework/Component/Physics.h"
 #include "Core/Json.h"
 
 namespace Jackster
@@ -12,9 +13,11 @@ namespace Jackster
 
 		bool Initialize() override;
 		void Update(float dt) override;
-		virtual void onCollision(Actor* actor) override;
+
+		virtual void onCollisionEnter(Actor* actor);
 
 	private:
-		float speed = 0;
+		float speed = 0.0f;
+		Physics* m_physicsComponent = nullptr;
 	};
 }

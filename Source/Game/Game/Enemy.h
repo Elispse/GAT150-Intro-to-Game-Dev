@@ -1,23 +1,19 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Framework/Component/Physics.h"
 
 namespace Jackster
 {
-	class Enemy : public Jackster::Actor
+	class Enemy : public Actor
 	{
 	public:
-		Enemy(float speed, float turnrate, const Jackster::Transform& transform) :
-			Actor{ transform }, 
-			m_speed{ speed }, 
-			m_turnRate{ turnrate }
-		{
-			m_fireRate = 2.0f;
-			m_fireTimer = m_fireRate;
-		}
+		CLASS_DECLARATION(Enemy)
 
 		bool Initialize() override;
+		void OnDestroy() override;
 		void Update(float dt) override;
-		virtual void onCollision(Actor* actor) override;
+
+		virtual void onCollisionEnter(Actor* actor) override;
 
 	protected:
 		float m_speed = 0;
@@ -26,5 +22,7 @@ namespace Jackster
 		float m_fireRate = 0;
 		float m_fireTimer = 0;
 		float m_health = 10.0f;
+
+		Jackster::Physics* m_physicsComponent = nullptr;
 	};
 }

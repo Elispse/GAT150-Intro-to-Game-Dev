@@ -10,6 +10,8 @@ namespace Jackster
     bool Weapon::Initialize()
     {
         Actor::Initialize();
+
+        m_physicsComponent = getComponent<Physics>();
     
         // cache off
         auto collision = getComponent<Jackster::Collision>();
@@ -30,14 +32,15 @@ namespace Jackster
         Actor::Update(dt);
     
         Jackster::Vector2 forward = Jackster::vec2(0, -1).Rotate(transform.rotation);
-        transform.position += forward * speed * Jackster::g_time.getDeltaTime();
+        m_physicsComponent->SetVelocity(forward * speed);
+
         if (transform.position.x > Jackster::g_renderer.GetWidth() && transform.position.y > Jackster::g_renderer.GetHeight())
         {
             destroyed = true;
         }
     }
 
-    void Weapon::onCollision(Actor* other)
+    void Weapon::onCollisionEnter(Actor* other)
     {
         if (other->tag != tag)
         {

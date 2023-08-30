@@ -16,6 +16,11 @@ namespace Jackster
 		m_velocity += force;
 	}
 
+	void EnginePhysicsComp::ApplyTorque(float torque)
+	{
+
+	}
+
 	void EnginePhysicsComp::Read(const json_t& value)
 	{
 

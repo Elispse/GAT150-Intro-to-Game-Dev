@@ -28,10 +28,13 @@ namespace Jackster
 		template<typename T = Actor>
 		T* getActorByName(const std::string& name);
 
+		void SetGame(Game* game) { m_game = game; };
+
 		friend class Actor;
 
 	private:
 		std::list<std::unique_ptr<Actor>> m_actors;
+		Game* m_game = nullptr;
 	};
 
 	template<typename T>
@@ -53,7 +56,10 @@ namespace Jackster
 			if (actor->name == name)
 			{
 				T* result = dynamic_cast<T*>(actor.get());
-				if (result) return result;
+				if (result) 
+				{
+					return result;
+				}
 			}
 		}
 

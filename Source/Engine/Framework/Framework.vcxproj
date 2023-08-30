@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -20,10 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Component\Box2DCollisionComponent.cpp" />
+    <ClCompile Include="Component\Box2DPhysicsComponent.cpp" />
     <ClCompile Include="Component\CircleCollision.cpp" />
     <ClCompile Include="Component\EnginePhysicsComp.cpp" />
     <ClCompile Include="Component\ModRendComp.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
+    <ClCompile Include="Component\SpriteAnimRenderComponent.cpp" />
     <ClCompile Include="Component\TextRenderComponent.cpp" />
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Event\EventManager.cpp" />
@@ -32,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Component\Box2DCollisionComponent.h" />
+    <ClInclude Include="Component\Box2DPhysicsComponent.h" />
     <ClInclude Include="Component\CircleCollision.h" />
     <ClInclude Include="Component\Collision.h" />
     <ClInclude Include="Component\Component.h" />
@@ -40,6 +45,7 @@
     <ClInclude Include="Component\Physics.h" />
     <ClInclude Include="Component\RenderComponent.h" />
     <ClInclude Include="Component\Sprite.h" />
+    <ClInclude Include="Component\SpriteAnimRenderComponent.h" />
     <ClInclude Include="Component\TextRenderComponent.h" />
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Event\Event.h" />

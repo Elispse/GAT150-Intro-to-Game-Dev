@@ -16,7 +16,9 @@ namespace Jackster
 				transform{ transform }
 			{}
 			Actor(const Actor& other);
-
+			virtual ~Actor() {
+				OnDestroy();
+			}
 
 			virtual bool Initialize() override;
 			virtual void OnDestroy() override;
@@ -28,8 +30,8 @@ namespace Jackster
 			template<typename T>
 			T* getComponent();
 
-			float getRadius() { return 30.0f; }
-			virtual void onCollision(Actor* other) {};
+			virtual void onCollisionEnter(Actor* other) {}
+			virtual void onCollisionExit(Actor* other) {}
 
 			class Scene* m_scene = nullptr;
 			friend class Scene;
@@ -44,7 +46,7 @@ namespace Jackster
 			bool prototype = false;
 
 		protected:
-			std::vector<std::unique_ptr<class Component>> components;
+			std::vector<std::unique_ptr<Component>> components;
 		};
 
 		template<typename T>
