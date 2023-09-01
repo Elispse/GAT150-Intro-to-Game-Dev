@@ -5,7 +5,10 @@
       "name": "Background",
       "persistent": true,
       "transform": {
-        "position": [ 400, 300 ],
+        "position": [
+          400,
+          300
+        ],
         "scale": 1,
         "rotation": 0
       },
@@ -21,7 +24,10 @@
       "name": "Title",
       "persistent": true,
       "transform": {
-        "position": [ 560, 400 ],
+        "position": [
+          560,
+          400
+        ],
         "scale": 1,
         "rotation": 0
       },
@@ -30,17 +36,203 @@
           "type": "TextRenderComponent",
           "fontName": "8bitOperatorPlus8-Bold.ttf",
           "fontSize": 48,
-          "text": "CornMan",
-          "color": [ 0, 0, 0, 0 ]
+          "text": "CoinMan",
+          "color": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Score",
+      "persistent": false,
+      "transform": {
+        "position": [
+          100,
+          100
+        ],
+        "scale": 0.1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "8bitOperatorPlus8-Bold.ttf",
+          "fontSize": 1,
+          "color": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Player",
+      "name": "Player",
+      "tag": "Player",
+      "persistent": true,
+      "m_speed": 300,
+      "maxSpeed": 8,
+      "jump": 12,
+      "transform": {
+        "position": [
+          500,
+          300
+        ],
+        "scale": 1.5,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimRenderComponent",
+          "defaultSequenceName": "idle",
+          "source": [
+            0,
+            0,
+            48,
+            48
+          ],
+          "origin": [
+            0.5,
+            1
+          ],
+          "sequences": [
+            {
+              "name": "idle",
+              "paddingL": 8,
+              "paddingR": 8,
+              "paddingD": 8,
+              "paddingU": 8,
+              "fps": 8,
+              "numColumns": 10,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 10,
+              "textureName": "Textures/Asset Pack-V1/Sprite Sheets/Character Idle 48x48.png"
+            },
+            {
+              "name": "run",
+              "paddingL": 8,
+              "paddingR": 8,
+              "paddingD": 8,
+              "paddingU": 8,
+              "fps": 8,
+              "numColumns": 8,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 8,
+              "textureName": "Textures/Asset Pack-V1/Sprite Sheets/run cycle 48x48.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "constrainAngle": true,
+          "gravityScale": 2
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0
+        }
+      ]
+    },
+    {
+      "type": "Enemy",
+      "name": "Enemy",
+      "tag": "Enemy",
+      "persistent": true,
+      "m_speed": 25,
+      "maxSpeed": 8,
+      "jump": 8,
+      "transform": {
+        "position": [
+          300,
+          300
+        ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimRenderComponent",
+          "defaultSequenceName": "idle",
+          "source": [
+            0,
+            0,
+            24,
+            16
+          ],
+          "origin": [
+            0.5,
+            1
+          ],
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 12,
+              "numColumns": 4,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 4,
+              "textureName": "Textures/bat.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "constrainAngle": true,
+          "gravityScale": 0
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0,
+          "isTrigger": true
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Crate",
+      "tag": "Ground",
+      "persistent": true,
+      "transform": {
+        "position": [
+          300,
+          300
+        ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "Sprite",
+          "textureName": "textures/crate.png"
+        },
+        {
+          "type": "Box2DPhysicsComponent"
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0.1
         }
       ]
     },
     {
       "type": "Actor",
       "name": "Coin",
-      "persistent": true,
+      "tag": "Coin",
+      "prototype": true,
       "transform": {
-        "position": [ 400, 300 ],
+        "position": [
+          400,
+          300
+        ],
         "scale": 1,
         "rotation": 0
       },
@@ -66,101 +258,6 @@
         {
           "type": "Box2DCollisionComponent",
           "restitution": 1
-        }
-      ]
-    },
-    {
-      "type": "Actor",
-      "name": "Crate",
-      "tag": "Ground",
-      "persistent": true,
-      "prototype": true,
-      "transform": {
-        "position": [ 300, 300 ],
-        "scale": 1,
-        "rotation": 0
-      },
-      "components": [
-        {
-          "type": "Sprite",
-          "textureName": "textures/crate.png"
-        },
-        {
-          "type": "Box2DPhysicsComponent"
-        },
-        {
-          "type": "Box2DCollisionComponent",
-          "restitution": 0.1
-        }
-      ]
-    },
-    {
-      "type": "Player",
-      "name": "Player",
-      "tag": "Player",
-      "persistent": true,
-      "m_speed": 300,
-      "maxSpeed":  8,
-      "jump": 8,
-      "transform": {
-        "position": [ 500, 300 ],
-        "scale": 2,
-        "rotation": 0
-      },
-      "components": [
-        {
-          "type": "SpriteAnimRenderComponent",
-          "defaultSequenceName": "run",
-          "source": [0, 0, 24, 16 ],
-          "origin": [0.5, 1],
-          "sequences": [
-            {
-              "name": "idle",
-              "fps": 8,
-              "numColumns": 10,
-              "numRows": 1,
-              "startFrame": 1,
-              "endFrame": 10,
-              "textureName": "Textures/Asset Pack-V1/Sprite Sheets/Character Idle 48x48.png"
-            },
-            {
-              "name": "run",
-              "fps": 8,
-              "numColumns": 8,
-              "numRows": 1,
-              "startFrame": 1,
-              "endFrame": 8,
-              "textureName": "Textures/Asset Pack-V1/Sprite Sheets/run cycle 48x48.png"
-            }
-          ]
-        },
-        {
-          "type": "Box2DPhysicsComponent",
-          "constrainAngle": true
-        },
-        {
-          "type": "Box2DCollisionComponent",
-          "restitution": 0
-        }
-      ]
-    },
-    {
-      "type": "Actor",
-      "tag": "Ground",
-      "transform": {
-        "position": [
-          400,
-          520
-        ]
-      },
-      "components": [
-        {
-          "type": "Box2DPhysicsComponent",
-          "isDynamic": false
-        },
-        {
-          "type": "Box2DCollisionComponent",
-          "size": [ 600, 20 ]
         }
       ]
     }

@@ -4,12 +4,12 @@
 
 namespace Jackster
 {
-	class Player : public Jackster::Actor
+	class Enemy : public Jackster::Actor
 	{
 	public:
-		CLASS_DECLARATION(Player)
+		CLASS_DECLARATION(Enemy)
 
-		bool Initialize() override;
+			bool Initialize() override;
 		void Update(float dt) override;
 
 		void onCollisionEnter(Actor* actor) override;

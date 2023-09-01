@@ -2,6 +2,8 @@
 #include "Renderer/Renderer.h"
 #include "FrameWork/Actor.h"
 #include "Framework/Resource/ResourceManager.h"
+#include "Framework/Component/Physics.h"
+#include "Framework/Actor.h"
 
 namespace Jackster
 {
@@ -16,7 +18,6 @@ namespace Jackster
 		{
 		UpdateSource();
 		}
-
 		return true;
 	}
 
@@ -32,7 +33,6 @@ namespace Jackster
 				frame = (m_sequence->loop) ? m_sequence->startFrame : m_sequence->endFrame;
 			}
 		}
-
 		UpdateSource();
 	}
 
@@ -62,10 +62,10 @@ namespace Jackster
 		int row = (frame - 1) / m_sequence->numColumns;
 
 		// set source rect from current column/row and cell size
-		source.x = (int)(column * cellSize.x);
-		source.y = (int)(row * cellSize.y);
-		source.w = (int)(cellSize.x);
-		source.h = (int)(cellSize.y);
+		source.x = (int)(column * cellSize.x) + m_sequence->paddingL;
+		source.y = (int)(row * cellSize.y) + m_sequence->paddingU;
+		source.w = (int)(cellSize.x) - m_sequence->paddingL - m_sequence->paddingR;
+		source.h = (int)(cellSize.y) - m_sequence->paddingD - m_sequence->paddingU;
 	}
 
 	void SpriteAnimRenderComponent::Read(const json_t& value)
@@ -85,6 +85,10 @@ namespace Jackster
 				READ_NAME_DATA(sequenceValue, "numRows", sequence.numRows);
 				READ_NAME_DATA(sequenceValue, "startFrame", sequence.startFrame);
 				READ_NAME_DATA(sequenceValue, "endFrame", sequence.endFrame);
+				READ_NAME_DATA(sequenceValue, "paddingL", sequence.paddingL);
+				READ_NAME_DATA(sequenceValue, "paddingR", sequence.paddingR);
+				READ_NAME_DATA(sequenceValue, "paddingD", sequence.paddingD);
+				READ_NAME_DATA(sequenceValue, "paddingU", sequence.paddingU);
 
 				// read texture
 				std::string textureName;
@@ -101,5 +105,4 @@ namespace Jackster
 			defaultSequenceName = m_sequences.begin()->first;
 		}
 	}
-
 }

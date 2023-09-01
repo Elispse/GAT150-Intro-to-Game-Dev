@@ -14,6 +14,11 @@ namespace Jackster
 			int numColumns = 0;
 			int numRows = 0;
 
+			int paddingL = 0;
+			int paddingR = 0;
+			int paddingD = 0;
+			int paddingU = 0;
+
 			int startFrame = 0;
 			int endFrame = 0;
 
@@ -39,5 +44,6 @@ namespace Jackster
 		std::string defaultSequenceName;
 		std::map<std::string, AnimSequence> m_sequences;
 		AnimSequence* m_sequence = nullptr;
+		
 	};
 }

@@ -12,7 +12,6 @@ namespace Jackster
 		{
 			Title,
 			StartGame,
-			StartLevel,
 			Game,
 			PlayerDeadStart,
 			PlayerDead,
@@ -39,14 +38,13 @@ namespace Jackster
 		eState m_state = eState::Title;
 		float m_spawnTimer = 0.0f;
 		float m_spawnTime = 3.0f;
-		unsigned short enemyCount = 0;
+		unsigned short coinCount = 0;
 		float m_stateTimer = 0;
 
 		std::shared_ptr<Jackster::Font> m_font;
 		std::unique_ptr<Jackster::Text> m_scoreText;
 		std::unique_ptr<Jackster::Text> m_titleText;
 		std::unique_ptr<Jackster::Text> m_gameOverText;
-
 	};
 }
 

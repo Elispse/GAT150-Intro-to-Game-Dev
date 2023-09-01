@@ -27,13 +27,12 @@ namespace Jackster
 		m_scene->SetGame(this);
 
 		// coin audio
-		Jackster::g_audioSystem.AddAudio("pick_up", "audio/Coin_pickup.wav");
-		Jackster::g_audioSystem.AddAudio("Main", "audio/main_music.wav");
+		Jackster::g_audioSystem.AddAudio("pick_up", "audio/Coin_pickup");
 
 		// add events
 		EVENT_SUBSCRIBE("OnAddPoints", PlatformGame::OnAddPoints);
 		EVENT_SUBSCRIBE("OnPlayerDead", PlatformGame::OnPlayerDead);
-		g_audioSystem.PlayOneShot("Main", true);
+		
 
 		return true;
 	}
